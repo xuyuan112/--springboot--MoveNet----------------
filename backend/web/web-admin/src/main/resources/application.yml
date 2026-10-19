@@ -1,0 +1,99 @@
+# =====================================================================
+# 康复训练平台后端主配置（环境无关项）
+# 环境差异项放 application-dev.yml；生产通过环境变量覆盖，禁止提交密钥
+# =====================================================================
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  application:
+    name: rehab-platform
+  profiles:
+    active: dev
+  jackson:
+    # 全局时间格式（LocalDateTime / LocalDate 另有针对 JavaTimeModule 的序列化输出）
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+    default-property-inclusion: always
+    serialization:
+      write-dates-as-timestamps: false
+
+# MyBatis-Plus
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  global-config:
+    banner: false
+    db-config:
+      # 全局逻辑删除约定（无 deleted 列的表不受影响）
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# 平台自定义配置
+rehab:
+  jwt:
+    # 生产必须通过环境变量 JWT_SECRET 注入（>=32 字节）
+    secret: ${JWT_SECRET:rehab-platform-dev-jwt-secret-key-please-change-in-prod-0123456789}
+    access-token-expire-sec: 1800
+    header: Authorization
+    token-prefix: "Bearer "
+  # 数据库备份文件本地目录（相对路径相对于服务启动目录；生产建议挂载独立数据卷）
+  backup:
+    dir: ${REHAB_BACKUP_DIR:data/backups}
+  # AI 问答（P5-B4）：mock=内置演示应答（开发/离线）；openai=OpenAI 兼容接口（生产，密钥走环境变量）
+  ai:
+    provider: ${REHAB_AI_PROVIDER:mock}
+    base-url: ${REHAB_AI_BASE_URL:}
+    api-key: ${REHAB_AI_API_KEY:}
+    model: ${REHAB_AI_MODEL:gpt-4o-mini}
+    timeout-seconds: 30
+    daily-limit-per-user: 20
+    max-question-length: 500
+
+# MinIO 对象存储（各环境覆盖具体地址；默认关闭，dev/prod 中开启）
+minio:
+  enabled: ${MINIO_ENABLED:false}
+  endpoint: ${MINIO_ENDPOINT:http://localhost:9000}
+  access-key: ${MINIO_ACCESS_KEY:minioadmin}
+  secret-key: ${MINIO_SECRET_KEY:minioadmin}
+  bucket-name: ${MINIO_BUCKET:rehab}
+  presign-expire-sec: 600
+
+# Knife4j / springdoc（生产环境通过 profile 关闭：knife4j.production=true）
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+springdoc:
+  # GET 请求的多个平铺参数统一按对象解析（与参考工程一致，便于多条件查询）
+  default-flat-param-object: true
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: default
+      paths-to-match: /**
+
+# Actuator
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when_authorized
+
+# 日志
+logging:
+  level:
+    root: info

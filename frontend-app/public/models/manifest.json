@@ -1,0 +1,42 @@
+{
+  "modelFile": "movenet-lightning.onnx",
+  "modelSizeBytes": 9413268,
+  "sha256": "1ad4f8d6c2f776a9967db3993c9ca740bc350104f9d37c151dc183fc29a464ad",
+  "inputSize": 192,
+  "inputDtype": "int32",
+  "inputLayout": "NHWC",
+  "colorOrder": "RGB",
+  "valueRange": [
+    0,
+    255
+  ],
+  "outputShape": [
+    1,
+    1,
+    17,
+    3
+  ],
+  "keypointOrder": [
+    "nose",
+    "left_eye",
+    "right_eye",
+    "left_ear",
+    "right_ear",
+    "left_shoulder",
+    "right_shoulder",
+    "left_elbow",
+    "right_elbow",
+    "left_wrist",
+    "right_wrist",
+    "left_hip",
+    "right_hip",
+    "left_knee",
+    "right_knee",
+    "left_ankle",
+    "right_ankle"
+  ],
+  "ortWebVersion": "1.30.0",
+  "engineId": "movenet-lightning-web@1ad4f8d6c2f7-ortweb1.30.0",
+  "source": "Xenova/movenet-singlepose-lightning onnx/model.onnx (Google MoveNet SinglePose Lightning ONNX export)",
+  "note": "运行时仅从 /models/ 本地加载；模型与 wasm 均不使用任何远端地址"
+}

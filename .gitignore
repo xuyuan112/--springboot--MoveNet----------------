@@ -1,0 +1,41 @@
+# ===== Java / Maven =====
+target/
+*.class
+*.jar
+!.mvn/wrapper/*.jar
+.mvn/timing.properties
+dependency-reduced-pom.xml
+
+# ===== 日志与运行时 =====
+logs/
+*.log
+hs_err_pid*
+
+# ===== Node / 前端 =====
+node_modules/
+dist/
+dist-ssr/
+.npm/
+.pnpm-store/
+frontend/src/auto-imports.d.ts
+frontend/src/components.d.ts
+
+# ===== IDE =====
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+.springBeans
+
+# ===== 系统 =====
+.DS_Store
+Thumbs.db
+
+# ===== 本地环境覆盖（禁止提交密钥）=====
+application-local.yml
+*.local

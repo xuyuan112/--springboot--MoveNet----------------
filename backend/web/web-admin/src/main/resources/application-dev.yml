@@ -1,0 +1,55 @@
+# =====================================================================
+# 开发环境配置（dev）：本机开发时连接 192.168.10.102 上的 MySQL/Redis/MinIO
+# 与 application.yml 的关系：相同键以本文件为准（Spring Boot 配置覆盖）
+# =====================================================================
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    # createDatabaseIfNotExist=true：库不存在时自动建库；表结构由 Flyway 迁移
+    url: jdbc:mysql://192.168.10.102:3306/rehab_platform?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&createDatabaseIfNotExist=true
+    username: root
+    password: Xy20041102.
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-test-query: SELECT 1   # 借出连接前自动检测有效性
+      connection-timeout: 60000         # 获取连接超时（毫秒），默认 30s
+      idle-timeout: 500000              # 空闲连接最大存活，默认 10 分钟
+      max-lifetime: 540000              # 连接最长生命周期，默认 30 分钟
+      maximum-pool-size: 12             # 连接池最大连接数，默认 10
+      minimum-idle: 10                  # 最小空闲连接数
+      pool-name: RehabHikariPool
+
+  # Redis（登录会话 / 失败锁定 / 幂等 / 缓存）
+  data:
+    redis:
+      host: 192.168.10.102
+      port: 6379
+      database: 0
+      timeout: 5s
+
+  # Flyway 数据库版本化迁移
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    encoding: UTF-8
+    baseline-on-migrate: true
+    validate-on-migrate: true
+
+# 开发环境打印 SQL 与参数，便于调试
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# MinIO 对象存储（与中间件同机；业务只存 object_key，读取时生成预签名 URL）
+minio:
+  enabled: true
+  endpoint: http://192.168.10.102:9000
+  access-key: minioadmin
+  secret-key: minioadmin
+  bucket-name: rehab
+  presign-expire-sec: 600
+
+logging:
+  level:
+    com.rehab: debug
+    org.flywaydb: info

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.rehab</groupId>
+        <artifactId>rehab-web</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>rehab-web-app</artifactId>
+    <packaging>jar</packaging>
+    <name>rehab-web-app</name>
+    <description>患者端 / 治疗师端 / 公共接口：Mapper、Service、Controller（业务库）</description>
+
+    <dependencies>
+        <!-- 内部模块：公共基础 + 领域模型 -->
+        <dependency>
+            <groupId>com.rehab</groupId>
+            <artifactId>rehab-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.rehab</groupId>
+            <artifactId>rehab-model</artifactId>
+        </dependency>
+
+        <!-- EasyCaptcha 图形验证码（登录验证码生成） -->
+        <dependency>
+            <groupId>com.github.whvcse</groupId>
+            <artifactId>easy-captcha</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>

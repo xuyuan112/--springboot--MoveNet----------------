@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- web 聚合模块：web-app 患者/治疗师/公共接口，web-admin 管理端接口与启动入口 -->
+    <parent>
+        <groupId>com.rehab</groupId>
+        <artifactId>rehab-platform</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>rehab-web</artifactId>
+    <packaging>pom</packaging>
+    <name>rehab-web</name>
+    <description>接口层聚合：web-app + web-admin</description>
+
+    <modules>
+        <module>web-app</module>
+        <module>web-admin</module>
+    </modules>
+</project>
